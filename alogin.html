@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  <title>تم تسجيل دخولك بنجاح</title>
+  <!-- <script src="shabakabtn.js"></script> -->
+
+  <!-- أيقونة وعناصر ميتا -->
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <meta http-equiv="pragma"  content="no-cache">
+  <meta http-equiv="refresh" content="0;url=status.html">
+  <meta http-equiv="expires" content="-1">
+  <meta name="theme-color" content="#d81b60">
+  <link rel="stylesheet" href="ramadan.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <div id="clock">Loading...</div>
+
+    <script type="text/javascript">
+      function refrClock1(){
+        var d=new Date();
+        var s=d.getSeconds(); var m=d.getMinutes(); var h=d.getHours();
+        var day=d.getDay(); var date=d.getDate(); var month=d.getMonth(); var year=d.getFullYear();
+        var days=["الاحد","الاثنين","الثلاثاء","الاربعاء","الخميس","الجمعة","السبت"];
+        var months=["يناير","فبراير","مارس","ابريل","ماي","يونيو","يوليو","اغسطس","سبتمبر","اكتوبر","نوفمبر","ديسمبر"];
+        var am_pm; if (s<10) s="0"+s; if (m<10) m="0"+m; if (h>12){h-=12;am_pm="مساءً."} else {am_pm="صباحاً."}
+        if (h<10) h="0"+h;
+        document.getElementById("clock").innerHTML=
+          days[day]+" "+date+" من "+months[month]+" "+year+"   |   الساعة الان "+h+":"+m+":"+s+" "+am_pm;
+        setTimeout("refrClock1()",1000);
+      }
+      refrClock1();
+    </script>
+
+    <div class="card">
+      <div class="card-header1">
+        <span class="network-label" id="netLabel">شبكة</span>
+      </div>
+
+      <div class="card-header">
+        <!-- الحلقة + سلايدر الصور -->
+        <div class="logo-ring">
+          <a id="logoLink" class="logo-link" href="img/1.jpeg" target="_blank" rel="noopener">
+            <img id="logoSlide" src="img/1.jpeg" alt="Elan Net Logo" class="logo">
+          </a>
+        </div>
+
+        <svg class="wave-svg" viewBox="0 0 500 150" preserveAspectRatio="none">
+          <path d="M0,30 C150,150 350,0 500,30 L500,150 L0,150 Z" fill="#2f004f"></path>
+        </svg>
+      </div>
+
+      <div class="tagline">
+        <div class="marquee" id="marqueeBox">
+          <div class="marquee-track" id="marqueeTrack">
+            <span id="marqueeText">عدم استخدام الإنترنت في ما لا يرضي الله تعالى وللتذكير إن الله عليك رقيب</span>
+            <span aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="login-box center">
+          <h3 class="mb-8">تسجيل الدخول التلقائي</h3>
+          <p id="autoMsg" class="mb-8">يرجى الانتظار ثوانٍ…</p>
+
+          <!-- نموذج ميكروتك -->
+          <form id="autoForm" method="post" action="$(link-login-only)">
+            <input type="hidden" name="username" id="f-username">
+            <input type="hidden" name="password" id="f-password">
+            <input type="hidden" name="domain"   id="f-domain"  value="">
+          </form>
+
+          <div class="mt-8">
+            <button class="btn btn-primary" id="manualBtn" style="display:none;">تسجيل الدخول الآن</button>
+            <a class="btn btn-light" href="$(link-login)" id="gotoLogin" style="display:none;">الانتقال لصفحة الدخول</a>
+          </div>
+        </div>
+
+        <div class="links-curved">
+          <a href="instructions.html" class="bubble">التعليمات</a>
+          <a href="services.html" class="bubble">جديد<br>الخدمات</a>
+          <a href="pricing.html" class="bubble">الاسعار</a>
+          <a href="pos.html" class="bubble">نقاط<br>البيع</a>
+          <a href="login.html" class="bubble">الرئيسية</a>
+          <a href="https://www.tvquran.com/" target="_blank" class="bubble">القرآن<br>الكريم</a>
+        </div>
+
+        <div class="footer" id="footerBox">
+          <div id="supportLine">رقم خدمة العملاء: <b id="clientPhoneText">000000000</b></div>
+          <div class="social">
+            <a id="telLink" href="#" title="اتصال">📞</a>
+            <a id="waLink"  href="#" title="واتساب">💬</a>
+          </div>
+          <div style="margin-top:8px">جميع الحقوق محفوظة لمكتب لمسات سوفت © 2025</div>
+        </div>
+      </div>
+
+      <div class="ie-fixMinHeight" style="display: none;">
+        <div class="main">
+          <div class="wrap">
+            <h1>You are logged in</h1>
+            <p class="info">If nothing happens, click <a href="$(link-redirect)">here</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- سلايدر الشعار -->
+  <script>
+    var images=['img/1.jpeg','img/2.jpeg','img/3.jpeg'];
+    var logoImg=document.getElementById('logoSlide');
+    var logoLink=document.getElementById('logoLink');
+    if(logoImg && logoLink){
+      images.forEach(function(src){ var im=new Image(); im.src=src; });
+      var si=0;
+      setInterval(function(){
+        logoImg.classList.add('fade-out');
+        setTimeout(function(){
+          si=(si+1)%images.length;
+          logoImg.src=images[si];
+          logoLink.href=images[si];
+          logoImg.classList.remove('fade-out');
+        }, 500);
+      }, 3000);
+    }
+  </script>
+
+  <!-- ✅ تطبيق بيانات lamasat.js على هذه الصفحة (اسم الشبكة + الهاتف + الماركيه) -->
+  <script>
+    function applyLamasatToThisPage(){
+      var cfg = window.LAMASAT || {};
+      var name = (cfg.networkName || '').toString().trim();
+      var phone = (cfg.phone || '').toString().trim();
+
+      // netLabel (تبديل الاسم)
+      try{
+        var el = document.getElementById('netLabel');
+        if(el && name){
+          var states = ['لمسات نت', name];
+          var i = 0;
+          el.textContent = states[i];
+
+          var HIDE_MS = 280, GAP_MS = 2200;
+          setInterval(function(){
+            el.classList.add('hidden');
+            setTimeout(function(){
+              i = (i + 1) % states.length;
+              el.textContent = states[i];
+              el.classList.remove('hidden');
+            }, HIDE_MS);
+          }, GAP_MS);
+        }
+      }catch(e){}
+
+      // رقم التواصل
+      (function setSupportPhone(){
+        var supportLine = document.getElementById('supportLine');
+        var phoneTextEl = document.getElementById('clientPhoneText');
+        var telLink     = document.getElementById('telLink');
+        var waLink      = document.getElementById('waLink');
+
+        function normalizePhone(p){
+          if(!p) return '';
+          p = String(p).trim();
+          var hasPlus = p.startsWith('+');
+          p = p.replace(/[^\d]/g,'');
+          return hasPlus ? ('+'+p) : p;
+        }
+        function waFromTel(tel){
+          return String(tel || '').replace(/^\+/, '');
+        }
+
+        if (!phone){
+          if (supportLine) supportLine.style.display = 'none';
+          return;
+        }
+
+        var tel = normalizePhone(phone);
+        var wa  = waFromTel(tel);
+
+        if (supportLine) supportLine.style.display = '';
+        if (phoneTextEl) phoneTextEl.textContent = tel;
+        if (telLink)     telLink.href = 'tel:' + tel;
+        if (waLink)      waLink.href  = 'https://wa.me/' + wa;
+      })();
+
+      // marquee
+      (function initMarquee(){
+        var m = cfg.marquee || {};
+        var text = (typeof m.text === 'string') ? m.text.trim() : '';
+        var dur  = Number(m.duration) > 0 ? Number(m.duration) : null;
+
+        var box   = document.getElementById('marqueeBox');
+        var track = document.getElementById('marqueeTrack');
+        var span  = document.getElementById('marqueeText');
+
+        if (!text) { if (box) box.style.display = 'none'; return; }
+        if (span)  span.textContent = text;
+        if (box)   box.style.display = '';
+        if (track && dur) {
+          track.style.setProperty('--dur', dur + 's');
+          track.style.animationDuration = dur + 's';
+        }
+      })();
+
+      // عنوان الصفحة (اختياري)
+      try{
+        if(name) document.title = 'تم تسجيل دخولك بنجاح • ' + name;
+      }catch(e){}
+    }
+
+    // انتظر تحميل lamasat.js ثم نفّذ
+    document.addEventListener('DOMContentLoaded', function(){
+      // لو lamasat.js تأخر، نعمل retry خفيف
+      var tries = 0;
+      (function waitCfg(){
+        tries++;
+        if(window.LAMASAT){
+          applyLamasatToThisPage();
+        }else if(tries < 30){
+          setTimeout(waitCfg, 50);
+        }
+      })();
+    });
+  </script>
+
+  <!-- ملف البيانات -->
+  <script src="lamasat.js" defer></script>
+
+</body>
+</html>
