@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>نقاط البيع - لمسات نت</title>
+  <link rel="stylesheet" href="ramadan.css">
+
+  <!-- ✅ تحميل بيانات الشبكة -->
+  <script src="lamasat.js"></script>
+</head>
+<body>
+  <main class="wrap">
+    <div class="top">
+      <div class="row">
+        <div class="brand">
+          <span class="dot"></span>
+          <!-- ✅ اسم الشبكة ديناميكي -->
+          <span class="name" id="networkNameEl">شبكة لمسات نت اللاسلكية</span>
+        </div>
+        <a class="navbtn" href="login.html">الرئيسية</a>
+      </div>
+    </div>
+
+    <section class="card">
+      <div class="head">
+        <h1 class="title">نقاط البيع</h1>
+        <p class="sub" id="posSubtitle">وجميع البقالات ضمن تغطية الشبكة</p>
+      </div>
+
+      <div class="body">
+        <!-- شريط البحث -->
+        <div class="search" role="search">
+          <input id="q" type="search" placeholder="ابحث باسم البقالة..." aria-label="بحث">
+          <button class="pill" type="button" id="clearBtn" title="مسح البحث">مسح</button>
+        </div>
+
+        <!-- القائمة -->
+        <div id="list" class="list" aria-live="polite"><!-- يمتلئ بالسكريبت --></div>
+      </div>
+
+      <div class="quick" aria-label="روابط مفيدة">
+        <a class="link" href="pricing.html">الأسعار</a>
+        <a class="link primary" href="services.html">الخدمات</a>
+
+        <!-- ✅ رقم خدمة العملاء ديناميكي -->
+        <a class="link" id="telLink" href="tel:">📞 اتصال بخدمة العملاء</a>
+        <a class="link" id="smsLink" href="sms:">✉️ رسالة نصية</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      var cfg = window.LAMASAT || {};
+
+      function normalizePhone(p){
+        if(!p) return '';
+        p = String(p).trim();
+        var hasPlus = p.startsWith('+');
+        p = p.replace(/[^\d]/g,'');
+        return hasPlus ? ('+'+p) : p;
+      }
+
+      function setNetworkName(){
+        var name = (cfg.networkName || 'لمسات نت').toString().trim();
+        var el = document.getElementById('networkNameEl');
+        if (el) el.textContent = 'شبكة ' + name + ' اللاسلكية';
+        try { document.title = 'نقاط البيع - ' + name; } catch(_){}
+      }
+
+      function setSupportLinks(){
+        var phone = normalizePhone(cfg.phone || '');
+        var tel = document.getElementById('telLink');
+        var sms = document.getElementById('smsLink');
+
+        if (phone){
+          if (tel) tel.href = 'tel:' + phone;
+          if (sms) sms.href = 'sms:' + phone;
+        } else {
+          // لو ما في رقم، اخفِ الروابط (اختياري)
+          // if (tel) tel.style.display='none';
+          // if (sms) sms.style.display='none';
+        }
+      }
+
+      // ✅ POS من lamasat.js (LAMASAT.pos)
+      var POS = Array.isArray(cfg.pos) ? cfg.pos : [];
+
+      var list = document.getElementById('list');
+      var q = document.getElementById('q');
+      var clearBtn = document.getElementById('clearBtn');
+
+      function createItem(item){
+        var name = (item && item.name) ? String(item.name) : '';
+        var area = (item && item.area) ? String(item.area) : '';
+        var phoneRaw = (item && item.phone) ? String(item.phone) : '';
+        var phone = normalizePhone(phoneRaw);
+
+        var el = document.createElement('div');
+        el.className = 'item';
+
+        // ملاحظة: التصميم الحالي يعتمد على نفس كلاساتك الموجودة في ramadan.css
+        // لو تحب نضيف area/phone بشكل أنيق حسب CSS عندك قلّي.
+        el.innerHTML = `
+          <span class="bullet" aria-hidden="true"></span>
+          <div class="i-name">${escapeHtml(name || '—')}</div>
+          ${area ? `<div class="i-sub">${escapeHtml(area)}</div>` : ``}
+          ${phone ? `<div class="i-sub"><a href="tel:${phone}">📞 ${phone}</a></div>` : ``}
+        `;
+        return el;
+      }
+
+      function render(items){
+        list.innerHTML = '';
+        if(!items.length){
+          list.appendChild(createItem({name:'لا توجد نقاط بيع مطابقة للبحث'}));
+          return;
+        }
+        items.forEach(function(p){ list.appendChild(createItem(p)); });
+      }
+
+      function normalize(s){
+        return (s||'').toString().trim()
+          .replace(/\s+/g,' ')
+          .replace(/[ًٌٍَُِْٕٓٔـ]/g,''); // إزالة الحركات
+      }
+
+      function filter(){
+        var term = normalize(q.value).toLowerCase();
+        if(!term){ render(POS); return; }
+        var out = POS.filter(function(p){
+          return normalize((p && p.name) ? p.name : '').toLowerCase().includes(term);
+        });
+        render(out);
+      }
+
+      function escapeHtml(str){
+        return String(str).replace(/[&<>"']/g, function(m){
+          return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m];
+        });
+      }
+
+      // أحداث البحث
+      q.addEventListener('input', filter);
+      clearBtn.addEventListener('click', function(){ q.value=''; filter(); q.focus(); });
+
+      // بداية العرض
+      setNetworkName();
+      setSupportLinks();
+      render(POS);
+    })();
+  </script>
+</body>
+</html>

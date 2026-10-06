@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>حالة الكرت | </title>
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="expires" content="-1" />
+  <link rel="stylesheet" href="ramadan.css">
+
+  <!-- ✅ تحميل إعدادات الشبكة (اسم/هاتف/ماركيه/الخ) -->
+  <script src="lamasat.js"></script>
+     <script src="lamasat_wallet_pop.js"></script>
+
+  <!-- جدول مخفي مخصّص لتطبيق أندرويد -->
+  <table width="100%" height="100%" style="display:none;">
+    <tr><td align="center" valign="middle">
+      <table border="1" class="tabula">
+        <tr><td align="right"></td><td>$(username)</td></tr>
+        <tr><td align="right">IP address:</td><td>$(ip)</td></tr>
+        <tr><td align="right">bytes up/down:</td><td>$(bytes-out-nice)/$(bytes-in-nice)/$(remain-bytes-total-nice)</td></tr>
+        <tr><td align="right">connected / left:</td><td>$(uptime) / $(session-time-left)</td></tr>
+        <tr><td align="right">connected:</td><td>$(uptime)</td></tr>
+      </table>
+    </td></tr>
+    <tbody>
+      <tr><td>اسم المستخدم</td><td id="val-username">$(username)</td></tr>
+      <tr><td>زمن الجلسة</td><td id="val-uptime">$(uptime)</td></tr>
+      <tr><td>الوقت المتبقي</td><td id="val-left">$(session-time-left)</td></tr>
+      <tr>
+        <td>الرصيد المستخدم</td>
+        <td id="val-io" data-in="$(bytes-in)" data-out="$(bytes-out)"> $(bytes-in-nice) / $(bytes-out-nice) </td>
+      </tr>
+      <tr>
+        <td>البيانات المتبقية</td>
+        <td id="val-remaining" data-remaining="$(remain-bytes-total)"> $(remain-bytes-total-nice) </td>
+      </tr>
+    </tbody>
+  </table>
+  <!--نهاية الكود التابع للتطبيق-->
+</head>
+
+<body>
+  <!-- نافذة الخطأ -->
+  <div class="error-popup" id="errorPopup">
+    <div class="error-popup-content">
+      <button class="error-close-button" onclick="closeErrorPopup()">إغلاق</button>
+      <h1>تنبيه</h1>
+      <p id="errorPopupMessage"></p>
+    </div>
+  </div>
+
+  <!-- توست -->
+  <div id="toast" class="toast"></div>
+
+  <div class="container">
+
+    <div class="card">
+      <div class="card-header1">
+        <!-- ✅ سيتم تعبئته من lamasat.js -->
+        <span class="network-label" id="netLabel">شبكة</span>
+      </div>
+
+      <div class="card-header">
+        <div class="viewer" aria-hidden="true">
+          <div class="cube" id="cube">
+            <a class="face f1" href="img/1.jpeg" target="_blank" rel="noopener"><img src="img/1.jpeg" alt=""></a>
+            <a class="face f2" href="img/2.jpeg" target="_blank" rel="noopener"><img src="img/2.jpeg" alt=""></a>
+            <a class="face f3" href="img/3.jpeg" target="_blank" rel="noopener"><img src="img/3.jpeg" alt=""></a>
+            <a class="face f4" href="img/4.jpeg" target="_blank" rel="noopener"><img src="img/4.jpeg" alt=""></a>
+          </div>
+        </div>
+        <svg class="wave-svg" viewBox="0 0 500 150" preserveAspectRatio="none">
+          <path d="M0,30 C150,150 350,0 500,30 L500,150 L0,150 Z" fill="#2f004f"></path>
+        </svg>
+      </div>
+
+      <div class="tagline">
+        <div class="marquee" id="marqueeBox">
+          <div class="marquee-track" id="marqueeTrack">
+            <span id="marqueeText">...</span>
+            <span aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+
+        <!-- أزرار البث والاستراحة -->
+        <div class="cta-row" dir="rtl">
+         <a id="liveBtn" href="#" class="cta-btn is-live" aria-label="البث المباشر">
+  <span class="pulse" aria-hidden="true"></span>
+  <span class="icon">▶️</span>
+  <span class="txt">
+    <b id="liveTitle">البث المباشر</b>
+    <small id="liveSub">HD • سريع</small>
+  </span>
+</a>
+
+
+          <a id="restBtn" href="http://30.10.10.10:88" class="cta-btn is-break" target="_blank" rel="noopener" aria-label="الاستراحة">
+            <span class="pulse" aria-hidden="true"></span>
+            <span class="icon">☕</span>
+            <span class="txt">
+              <b>الاستراحة</b>
+              <small id="restSmall">30.10.10.10:88</small>
+            </span>
+          </a>
+        </div>
+
+        <!-- بيانات الحالة -->
+        <div class="login-box">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>البند</th><th>القيمة</th></tr></thead>
+              <tbody>
+                <tr><td>اسم المستخدم</td><td id="val-username">$(username)</td></tr>
+                <tr><td>الآي بي</td><td id="val-ip">$(ip)</td></tr>
+                <tr><td>الماك</td><td id="val-mac">$(mac)</td></tr>
+                <tr><td>زمن الجلسة</td><td id="val-uptime">$(uptime)</td></tr>
+                <tr><td>الوقت المتبقي</td><td id="val-left">$(session-time-left)</td></tr>
+                <tr>
+                  <td>الرصيد المستخدم</td>
+                  <td id="val-io" data-in="$(bytes-in)" data-out="$(bytes-out)">$(bytes-in-nice) / $(bytes-out-nice)</td>
+                </tr>
+                <tr>
+                  <td>البيانات المتبقية</td>
+                  <td id="val-remaining" data-remaining="$(remain-bytes-total)">$(remain-bytes-total-nice)</td>
+                </tr>
+                <tr><td>السرعة الحالية</td><td id="val-rate" title="$(rate-limit)">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ودجِت الاستخدام -->
+          <div class="usage-box" id="usageBox" aria-live="polite">
+            <div class="usage-title">استهلاك البيانات (مُحدَّث تلقائيًا)</div>
+            <div class="usage-cards">
+              <div class="u-card u-down"><div class="u-label">التنزيل</div><div class="u-value" id="u-down-text">—</div></div>
+              <div class="u-card u-up"><div class="u-label">الرفع</div><div class="u-value" id="u-up-text">—</div></div>
+              <div class="u-card u-total"><div class="u-label">الإجمالي المستخدم</div><div class="u-value" id="u-total-text">—</div></div>
+              <div class="u-card u-remain"><div class="u-label">المتبقي</div><div class="u-value" id="u-remain-text">—</div></div>
+            </div>
+            <div class="usage-bar" title="التنزيل/الرفع/المتبقي">
+              <span class="seg seg-down" id="seg-down" style="width:0%"></span>
+              <span class="seg seg-up" id="seg-up" style="width:0%"></span>
+              <span class="seg seg-rem" id="seg-rem" style="width:0%"></span>
+            </div>
+            <div class="usage-legend">
+              <span class="leg"><span class="dot down"></span>تنزيل</span>
+              <span class="leg"><span class="dot up"></span>رفع</span>
+              <span class="leg"><span class="dot rem"></span>متبقّي</span>
+            </div>
+          </div>
+
+          <div class="center mt-8">
+            <a class="btn btn-primary" id="logoutBtn" href="$(link-logout)">تسجيل الخروج</a>
+          </div>
+        </div>
+
+        <!-- إدارة الإعدادات (UI جديد) -->
+        <div class="login-box">
+          <h3 class="mb-8 center">إدارة الإعدادات</h3>
+
+          <div class="speed-card" id="speedCard" aria-label="اختيار سرعة الإنترنت">
+            <div class="speed-card__header">
+              <div class="speed-card__left">⚡</div>
+              <div class="speed-card__titles">
+                <h3>اختيار سرعة الإنترنت</h3>
+                <small>اختر السرعة المناسبة لك</small>
+              </div>
+              <div class="speed-card__right" id="speedOk">✔</div>
+            </div>
+
+            <div class="speed-card__options" id="speedOptions">
+              <button type="button" class="speed-opt opt--economic" data-value="speed_economic">اقتصادية <span>💰</span></button>
+              <button type="button" class="speed-opt opt--normal"   data-value="speed_normal">متوسطة <span>🏃‍♂️</span></button>
+              <button type="button" class="speed-opt opt--high"     data-value="speed_high">عالية <span>🚀</span></button>
+              <button type="button" class="speed-opt opt--very"     data-value="speed_very">فائقة <span>🚀🚀</span></button>
+			   <button type="button" class="speed-opt opt--gaming"     data-value="speed_gaming">العاب اونلاين <span>🎮🎮</span></button>
+            </div>
+
+            <div class="speed-card__status" id="speedStatus">اختر السرعة المناسبة</div>
+          </div>
+
+          <input type="hidden" id="speed" value="">
+          <input type="hidden" id="update" value="">
+
+          <div class="update-card off" id="updateCard" aria-label="إيقاف تحديثات جوجل" role="group">
+            <div class="update-left">
+              <label class="toggle" aria-label="مفتاح إيقاف التحديثات">
+                <input type="checkbox" id="updateToggle" aria-checked="false" role="switch">
+                <span class="slider"></span>
+              </label>
+              <div class="update-state">
+                <div class="title" id="updateStateTitle">ملغي</div>
+                <div class="sub">الحالة</div>
+              </div>
+            </div>
+            <div class="update-icon" aria-hidden="true">🌐</div>
+            <div class="update-caption">منع التحديثات التلقائية</div>
+          </div>
+
+          <div class="center">
+            <button class="btn btn-primary" id="applyBtn">تطبيق الإعدادات</button>
+            <div class="mt-8" style="opacity:.85;font-size:12px;">تطبيق فوري بدون تبديل الشاشة (خروج/دخول داخلي).</div>
+          </div>
+        </div>
+
+        <!-- روابط سريعة -->
+        <div class="links-curved">
+          <a href="instructions.html" class="bubble">التعليمات</a>
+          <a href="services.html" class="bubble">جديد<br>الخدمات</a>
+          <a href="pricing.html" class="bubble">الاسعار</a>
+          <a href="pos.html" class="bubble">نقاط<br>البيع</a>
+          <a href="https://www.tvquran.com/" target="_blank" class="bubble">القرآن<br>الكريم</a>
+        </div>
+
+        <div class="footer" id="footerBox">
+          <div id="supportLine">رقم خدمة العملاء: <b id="clientPhoneText">000000000</b></div>
+          <div class="social">
+            <!-- ✅ IDs مختلفة لتجنب التعارض -->
+            <a id="telLinkFooter" href="#" title="اتصال">📞</a>
+            <a id="waLinkFooter"  href="#" title="واتساب">💬</a>
+          </div>
+          <div style="margin-top:8px">جميع الحقوق محفوظة لمكتب لمسات سوفت © 2026</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== سكربتاتك كما هي + حقن بيانات lamasat.js فوق ====== -->
+
+  <script>
+  /* أدوات الكوكيز */
+  function setCookie(name, value, days){
+    var exp=""; if(days){var d=new Date(); d.setTime(d.getTime()+days*24*60*60*1000); exp="; expires="+d.toUTCString();}
+    document.cookie = name + "=" + (value||"") + exp + "; path=/";
+  }
+  function getCookie(name){
+    var nameEQ = name + "=", ca = document.cookie.split(';');
+    for (var i=0;i<ca.length;i++){var c=ca[i].trim(); if (c.indexOf(nameEQ)===0) return c.substring(nameEQ.length);}
+    return null;
+  }
+  function closeErrorPopup(){var p=document.getElementById('errorPopup');if(p)p.style.display='none';}
+  function showToast(msg, kind='success'){
+    var el = document.getElementById('toast');
+    if(!el){
+      el = document.createElement('div');
+      el.id = 'toast'; el.className = 'toast';
+      document.body.appendChild(el);
+    }
+    el.className = 'toast ' + (kind==='error' ? 'error' : 'success');
+    el.innerHTML =
+      '<span class="t-icon" aria-hidden="true">'+ (kind==='error'?'⚠️':'✔') +'</span>'+
+      '<span class="t-msg">'+ msg +'</span>'+
+      '<button class="t-close" aria-label="إغلاق">×</button>';
+
+    el.style.display = 'flex';
+    requestAnimationFrame(function(){ el.classList.add('show'); });
+
+    function hide(){ el.classList.remove('show'); setTimeout(function(){ el.style.display='none'; }, 220); }
+    el.querySelector('.t-close').onclick = hide;
+    clearTimeout(el._hideTimer);
+    el._hideTimer = setTimeout(hide, 3200);
+  }
+
+  const UNIT_MAP_AR = { B:'بايت', KB:'كيلوبايت', MB:'ميجابايت', GB:'جيجابايت', TB:'تيرابايت' };
+  function formatBytesAr(bytes){
+    if(bytes==null || isNaN(bytes)) return "—";
+    const units=['B','KB','MB','GB','TB']; let i=0,v=Number(bytes);
+    while(v>=1024 && i<units.length-1){v/=1024;i++}
+    const num = (v<10? v.toFixed(2): v<100? v.toFixed(1): Math.round(v));
+    return num+" "+UNIT_MAP_AR[units[i]];
+  }
+  function translateNiceToAr(niceText){
+    if(!niceText) return "—";
+    const m = niceText.trim().match(/^([\d\.,]+)\s*(B|KB|MB|GB|TB)$/i);
+    if(!m) return niceText;
+    const num = m[1], u = m[2].toUpperCase();
+    return num+" "+(UNIT_MAP_AR[u] || u);
+  }
+  function formatDurationAr(s){
+    if(!s || s==='') return "—";
+    const txt = String(s).trim();
+    if(txt.toLowerCase()==='disabled') return "غير محدد";
+    const parts = [];
+    const regex = /(\d+)([dhms])/ig;
+    let m;
+    while((m = regex.exec(txt))!==null){
+      const n = m[1], u = m[2].toLowerCase();
+      if(u==='d') parts.push(n+" يوم");
+      else if(u==='h') parts.push(n+" ساعة");
+      else if(u==='m') parts.push(n+" دقيقة");
+      else if(u==='s') parts.push(n+" ثانية");
+    }
+    return parts.length ? parts.join("، ") : txt;
+  }
+
+  const SPEED_LABELS = {
+    "": "افتراضي",
+    "speed_economic": "اقتصادية",
+    "speed_normal": "متوسطة",
+    "speed_high": "عالية",
+    "speed_very": "عالية جدًا",
+    "speed_gaming": "ألعاب أونلاين"
+  };
+
+  function updateCurrentSpeedLabel(){
+    const rateCell = document.getElementById('val-rate');
+    if(!rateCell) return;
+    const rateLimit = rateCell.getAttribute('title') || rateCell.textContent.trim() || '—';
+    const username = (document.getElementById('val-username')?.textContent || '').trim();
+    const savedSpeed = (getCookie('speed')||'').trim();
+    const label = (username.startsWith('777')) ? 'افتراضي' : (SPEED_LABELS[savedSpeed] || (savedSpeed || 'افتراضي'));
+    rateCell.textContent = label;
+    if(!rateCell.getAttribute('title')) rateCell.setAttribute('title', rateLimit);
+  }
+
+  function refreshUsage(){
+    const ioCell = document.getElementById('val-io');
+    const remCell = document.getElementById('val-remaining');
+    const leftCell = document.getElementById('val-left');
+    if(leftCell){ const rawLeft = leftCell.textContent; leftCell.textContent = formatDurationAr(rawLeft); }
+    if(!ioCell || !remCell) { updateCurrentSpeedLabel(); return; }
+
+    const inRaw  = Number(ioCell.dataset.in);
+    const outRaw = Number(ioCell.dataset.out);
+    const remRaw = Number(remCell.dataset.remaining);
+
+    let inNiceAr, outNiceAr, remNiceAr, totalNiceAr;
+    if(!isNaN(inRaw) && !isNaN(outRaw)){
+      inNiceAr   = formatBytesAr(inRaw);
+      outNiceAr  = formatBytesAr(outRaw);
+      totalNiceAr= formatBytesAr(inRaw + outRaw);
+    }else{
+      const parts = ioCell.textContent.split('/').map(t=>t.trim());
+      inNiceAr  = translateNiceToAr(parts[0] || "—");
+      outNiceAr = translateNiceToAr(parts[1] || "—");
+      totalNiceAr = (parts[0] && parts[1]) ? (translateNiceToAr(parts[0])+" + "+translateNiceToAr(parts[1])) : "—";
+    }
+    if(!isNaN(remRaw)){ remNiceAr = formatBytesAr(remRaw); }
+    else { remNiceAr = translateNiceToAr(remCell.textContent.trim()); }
+
+    const dlNice = outNiceAr;
+    const ulNice = inNiceAr;
+
+    document.getElementById('u-down-text').textContent   = dlNice;
+    document.getElementById('u-up-text').textContent     = ulNice;
+    document.getElementById('u-remain-text').textContent = remNiceAr;
+    document.getElementById('u-total-text').textContent  = totalNiceAr;
+
+    const hasRaw = !isNaN(inRaw) && !isNaN(outRaw);
+    const totalForRow = hasRaw ? formatBytesAr(inRaw + outRaw) : "—";
+    ioCell.textContent  = ` ${totalForRow}`;
+    remCell.textContent = remNiceAr;
+
+    const segDown = document.getElementById('seg-down');
+    const segUp   = document.getElementById('seg-up');
+    const segRem  = document.getElementById('seg-rem');
+
+    const totalRaw = (!isNaN(inRaw) && !isNaN(outRaw) && !isNaN(remRaw)) ? (inRaw+outRaw+remRaw) : null;
+
+    if(totalRaw && totalRaw>0){
+      const pDown = Math.max(0, Math.min(100, (outRaw/totalRaw)*100));
+      const pUp   = Math.max(0, Math.min(100, (inRaw/totalRaw)*100));
+      const pRem  = Math.max(0, 100 - (pDown + pUp));
+
+      segDown.style.width = pDown.toFixed(2)+"%";
+      segUp.style.width   = pUp.toFixed(2)+"%";
+      segRem.style.width  = pRem.toFixed(2)+"%";
+    }else{
+      segDown.style.width = "0%"; segUp.style.width = "0%"; segRem.style.width = "100%";
+    }
+
+    updateCurrentSpeedLabel();
+  }
+
+  function pullAndPatch(){
+    return fetch(location.href, {cache:'no-store', credentials:'include'})
+      .then(r => r.text())
+      .then(html => {
+        var doc = new DOMParser().parseFromString(html,'text/html');
+        ['val-username','val-ip','val-mac','val-uptime','val-left','val-io','val-remaining','val-rate'].forEach(function(id){
+          var src = doc.getElementById(id);
+          var dst = document.getElementById(id);
+          if (src && dst){
+            if(id === 'val-rate'){
+              if(src.getAttribute('title')) dst.setAttribute('title', src.getAttribute('title'));
+              else if(!dst.getAttribute('title') && src.textContent.trim()) dst.setAttribute('title', src.textContent.trim());
+            }else{
+              dst.textContent = src.textContent;
+            }
+            Array.from(src.attributes).forEach(function(attr){
+              if(attr.name.startsWith('data-')) dst.setAttribute(attr.name, attr.value);
+            });
+          }
+        });
+        refreshUsage();
+      })
+      .catch(function(){});
+  }
+
+  function sleep(ms){ return new Promise(res=>setTimeout(res, ms)); }
+  async function ajaxLogout(){ try{ await fetch('$(link-logout)', {credentials:'include', cache:'no-store'}); }catch(e){} }
+  async function ajaxLogin(username, speedDomain){
+    const form = new URLSearchParams();
+    form.set('username', username);
+    if (speedDomain && !String(username).startsWith('777')) form.set('domain', speedDomain);
+    form.set('popup','false');
+    const resp = await fetch('$(link-login-only)', {method:'POST', body:form, credentials:'include', cache:'no-store'});
+    const text = await resp.text();
+    const failed = /(?:error=|login_failed|invalid)/i.test(text);
+    return resp.ok && !failed;
+  }
+
+  async function applySettingsAndRelogin(){
+    const speedInput  = document.getElementById('speed');
+    const updateInput = document.getElementById('update');
+    const btn         = document.getElementById('applyBtn');
+
+    const usernameCell = document.getElementById('val-username');
+    const username = usernameCell ? usernameCell.textContent.trim() : (getCookie('username')||'').trim();
+    const speed    = (speedInput && speedInput.value) || '';
+    if(!username){
+      const p=document.getElementById('errorPopup'); const m=document.getElementById('errorPopupMessage');
+      if(m) m.textContent='لا يمكن إعادة الاتصال لأن اسم المستخدم غير معروف في صفحة الحالة. ادخل ببطاقة أولاً.';
+      if(p) p.style.display='block';
+      return;
+    }
+
+    setCookie('speed', speed, 30);
+    setCookie('update', (updateInput?updateInput.value:''), 30);
+
+    btn.disabled = true; btn.textContent = 'جارٍ تطبيق الإعدادات…';
+    try{
+      await ajaxLogout();
+      await sleep(400);
+      const ok = await ajaxLogin(username, speed);
+      await sleep(500);
+      await pullAndPatch();
+      updateCurrentSpeedLabel();
+
+      if(ok){
+        const label = (username.startsWith('777')) ? 'افتراضي' : (SPEED_LABELS[speed] || speed || 'افتراضي');
+        showToast('تم تطبيق الإعدادات بنجاح • السرعة: ' + label, 'success');
+      }else{
+        showToast('فشل تسجيل الدخول بعد تغيير السرعة. تأكد من الإعدادات.', 'error');
+      }
+    }catch(e){
+      showToast('حدث خطأ أثناء تطبيق الإعدادات.', 'error');
+      const p=document.getElementById('errorPopup'); const m=document.getElementById('errorPopupMessage');
+      if(m) m.textContent='حدث خطأ أثناء تطبيق الإعدادات. جرّب مرة أخرى.';
+      if(p) p.style.display='block';
+    }finally{
+      btn.disabled = false; btn.textContent = 'تطبيق الإعدادات';
+    }
+  }
+
+  function clearUpdatePrefs(){
+    setCookie('update','',-1);
+    try{
+      localStorage.removeItem('update');
+      localStorage.removeItem('auto_update');
+      localStorage.removeItem('disableUpdates');
+      sessionStorage.removeItem('update');
+      sessionStorage.removeItem('auto_update');
+      sessionStorage.removeItem('disableUpdates');
+    }catch(e){}
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+
+    /* ✅ حقن بيانات lamasat.js (اسم الشبكة + الهاتف + الماركيه + الاستراحة) */
+    (function applyLamasat(){
+      var cfg = window.LAMASAT || {};
+
+      function normalizePhone(p){
+        if(!p) return '';
+        p = String(p).trim();
+        var hasPlus = p.startsWith('+');
+        p = p.replace(/[^\d]/g,'');
+        return hasPlus ? ('+'+p) : p;
+      }
+      function waFromTel(tel){ return String(tel || '').replace(/^\+/, ''); }
+
+      // اسم الشبكة (netLabel) + عنوان الصفحة
+      try{
+        if(cfg.networkName){
+          document.title = 'حالة الكرت | ' + cfg.networkName;
+        }
+      }catch(_){}
+
+      // تحديث الماركيه
+      (function initMarquee(){
+        var m = cfg.marquee || {};
+        var text = (typeof m.text === 'string') ? m.text.trim() : '';
+        var dur  = Number(m.duration) > 0 ? Number(m.duration) : null;
+
+        var box   = document.getElementById('marqueeBox');
+        var track = document.getElementById('marqueeTrack');
+        var span  = document.getElementById('marqueeText');
+
+        if (!text) { if (box) box.style.display = 'none'; return; }
+        if (span) span.textContent = text;
+        if (box) box.style.display = '';
+        if (track && dur) {
+          track.style.setProperty('--dur', dur + 's');
+          track.style.animationDuration = dur + 's';
+        }
+      })();
+
+      // رقم الدعم في الفوتر
+      (function setSupportPhone(){
+        var phoneRaw = cfg.phone;
+        var supportLine = document.getElementById('supportLine');
+        var phoneTextEl = document.getElementById('clientPhoneText');
+        var telLink     = document.getElementById('telLinkFooter');
+        var waLink      = document.getElementById('waLinkFooter');
+
+        if (!phoneRaw) { if (supportLine) supportLine.style.display = 'none'; return; }
+
+        var tel = normalizePhone(phoneRaw);
+        var wa  = waFromTel(tel);
+
+        if (supportLine) supportLine.style.display = '';
+        if (phoneTextEl) phoneTextEl.textContent = tel;
+        if (telLink)     telLink.href = 'tel:' + tel;
+        if (waLink)      waLink.href  = 'https://wa.me/' + wa;
+      })();
+
+      // زر الاستراحة من config (اختياري)
+      (function setRest(){
+  var btn = document.getElementById('restBtn');
+  var sm  = document.getElementById('restSmall');
+
+  var restUrl = (cfg.restUrl || cfg.estrahaUrl || '').toString().trim();
+
+  // لو ما في رابط نخفي الزر بالكامل
+  if(!restUrl){
+    if(btn) btn.style.display = 'none';
+    return;
+  }
+
+  if(btn) btn.href = restUrl;
+  if(sm)  sm.textContent = restUrl.replace(/^https?:\/\//,'');
+})();
+
+	  // زر البث المباشر من config
+(function setLive(){
+  var cfg = window.LAMASAT || {};
+  var live = cfg.live || {};
+
+  var url = (live.url || '').toString().trim();
+  var title = (live.title || '').toString().trim() || 'البث المباشر';
+  var sub = (live.subtitle || '').toString().trim() || '';
+
+  var btn = document.getElementById('liveBtn');
+  var tEl = document.getElementById('liveTitle');
+  var sEl = document.getElementById('liveSub');
+
+  if (!btn) return;
+
+  // لو ما في رابط نخفي الزر بالكامل
+  if (!url){
+    btn.style.display = 'none';
+    return;
+  }
+
+  btn.href = url;
+  if (tEl) tEl.textContent = title;
+  if (sEl) sEl.textContent = sub || ' ';
+})();
+
+    })();
+
+
+    // زر الخروج: امسح تفضيلات التحديثات قبل الانتقال
+    var logoutLink = document.getElementById('logoutBtn');
+    if(logoutLink){
+      logoutLink.addEventListener('click', function(e){
+        e.preventDefault();
+        clearUpdatePrefs();
+        window.location.href = this.href;
+      });
+    }
+
+    // ===== واجهة السرعة الجديدة =====
+    var speedInput = document.getElementById('speed');
+    var speedCard  = document.getElementById('speedCard');
+    var statusEl   = document.getElementById('speedStatus');
+    var buttons    = [].slice.call(document.querySelectorAll('.speed-opt'));
+    var savedSpeed = getCookie('speed') || '';
+    function selectSpeed(val){
+      if(speedInput) speedInput.value = val || '';
+      buttons.forEach(b => b.classList.toggle('is-selected', b.dataset.value===val));
+      speedCard.classList.toggle('has-selection', !!val);
+      speedCard.classList.toggle('is-ultra', val==='speed_very' || val==='speed_gaming');
+      if(val && SPEED_LABELS[val]){
+        statusEl.classList.add('ok');
+        statusEl.textContent='تم اختيار السرعة: '+SPEED_LABELS[val];
+      }else{
+        statusEl.classList.remove('ok');
+        statusEl.textContent='اختر السرعة المناسبة';
+      }
+    }
+    buttons.forEach(btn => btn.addEventListener('click', () => selectSpeed(btn.dataset.value)));
+    selectSpeed(savedSpeed);
+
+    // ===== واجهة التحديثات الجديدة =====
+    var updateInput      = document.getElementById('update');
+    var updateCard       = document.getElementById('updateCard');
+    var updateToggle     = document.getElementById('updateToggle');
+    var updateStateTitle = document.getElementById('updateStateTitle');
+    var savedUpdate      = getCookie('update'); // '' أو choose-auto-update-off
+
+    function applyUpdateUI(isOn){
+      if(isOn){
+        updateCard.classList.add('on'); updateCard.classList.remove('off');
+        updateStateTitle.textContent='مُفعّل';
+        updateInput.value='choose-auto-update-off';
+        updateToggle.checked=true; updateToggle.setAttribute('aria-checked','true');
+      }else{
+        updateCard.classList.add('off'); updateCard.classList.remove('on');
+        updateStateTitle.textContent='ملغي';
+        updateInput.value='';
+        updateToggle.checked=false; updateToggle.setAttribute('aria-checked','false');
+      }
+    }
+    applyUpdateUI(savedUpdate === 'choose-auto-update-off');
+
+    updateToggle.addEventListener('change', function(e){
+      var isOn = !!this.checked;
+      applyUpdateUI(isOn);
+      setCookie('update', isOn ? 'choose-auto-update-off' : '', 30);
+      e.stopPropagation();
+    });
+    updateCard.addEventListener('click', function(e){
+      if(e.target.closest('input, label')) return;
+      var next = !updateToggle.checked;
+      applyUpdateUI(next);
+      setCookie('update', next ? 'choose-auto-update-off' : '', 30);
+    });
+
+    // زر تطبيق الإعدادات
+    var applyBtn = document.getElementById('applyBtn');
+    if (applyBtn) applyBtn.addEventListener('click', applySettingsAndRelogin);
+
+    // سحب دوري للحالة
+    var INTERVAL_MS = 2000;
+    var timer = setInterval(pullAndPatch, INTERVAL_MS);
+    document.addEventListener('visibilitychange', function(){
+      if (document.hidden) { clearInterval(timer); }
+      else { pullAndPatch(); timer = setInterval(pullAndPatch, INTERVAL_MS); }
+    });
+
+    // أول تهيئة
+    refreshUsage();
+    updateCurrentSpeedLabel();
+  });
+  </script>
+
+  <script>
+  /* سلايدر الشعار البسيط */
+  document.addEventListener('DOMContentLoaded', function(){
+    var images = ['img/1.jpeg','img/2.jpeg','img/3.jpeg'];
+    var imgEl  = document.getElementById('logoSlide');
+    var linkEl = document.getElementById('logoLink');
+    if (!imgEl || !linkEl || images.length < 2) return;
+    images.forEach(function(src){ var im = new Image(); im.src = src; });
+    var i = 0;
+    setInterval(function(){
+      imgEl.classList.add('fade-out');
+      setTimeout(function(){
+        i = (i + 1) % images.length;
+        imgEl.src  = images[i];
+        linkEl.href = images[i];
+        imgEl.classList.remove('fade-out');
+      }, 400);
+    }, 3000);
+  });
+  </script>
+
+  <script>
+  /* تخزين آخر كرت ناجح */
+  (function () {
+    var u = '$(username)'.trim();
+    if (!u || u.indexOf('$(') === 0) return;
+    var days = 30;
+    var exp = new Date(Date.now() + days*24*60*60*1000).toUTCString();
+    document.cookie = "lastSuccessUsername=" + u + "; expires=" + exp + "; path=/";
+    try {
+      var all = [];
+      var found = document.cookie.split(';').map(s=>s.trim()).find(s=>s.startsWith('successUsernames='));
+      if (found) { all = JSON.parse(found.substring("successUsernames=".length) || "[]"); }
+      if (all.indexOf(u) === -1) all.push(u);
+      document.cookie = "successUsernames=" + JSON.stringify(all) + "; expires=" + exp + "; path=/";
+    } catch (e) {}
+  })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>الخدمات - لمسات نت</title>
+    <link rel="stylesheet" href="ramadan.css">
+
+</head>
+<body>
+  <div class="top">
+    <div class="row">
+      <div class="brand"><span class="dot"></span><span>لمسات نت</span></div>
+      <a class="navbtn" href="login.html">الرئيسية</a>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="head">
+        <h1 class="title">الخدمات</h1>
+        <p class="sub">كل ما تحتاجه لإتصال أذكى وتجربة أفضل</p>
+      </div>
+
+      <div class="body">
+        <div class="grid">
+          <div class="svc primary">
+            <h3>🔔 تنبيهات الرصيد</h3>
+            <p>استقبل إشعارات ذكية عند انخفاض الرصيد واقتراح أفضل باقة.</p>
+            <div class="tags">
+              <span class="tag">فوري</span><span class="tag">ذكي</span>
+            </div>
+            <div class="act"><button class="btn alt" onclick="go('pricing.html')">اختر باقة</button></div>
+          </div>
+
+          <div class="svc">
+            <h3>🧾 شراء الكروت</h3>
+            <p>اختر من قوائم متعددة مع تفاصيل الوقت والحجم والصلاحية.</p>
+            <div class="tags">
+              <span class="tag">سريع</span><span class="tag">آمن</span>
+            </div>
+            <div class="act"><button class="btn" onclick="go('pos.html')">أقرب نقطة بيع</button></div>
+          </div>
+
+          <div class="svc">
+            <h3>🪪 شحن الألعاب</h3>
+            <p>شحن ببجي، فورتنايت وغيرها عبر حساب مخصص للألعاب.</p>
+            <div class="tags">
+              <span class="tag">Gaming</span><span class="tag">VIP</span>
+            </div>
+            <div class="act"><button class="btn" onclick="go('pricing.html')">خطط الألعاب</button></div>
+          </div>
+
+          <div class="svc">
+            <h3>🎬 الاستراحة (مكتبة محلية)</h3>
+            <p>أفلام ومسلسلات داخل الشبكة بدون استهلاك من الكرت.</p>
+            <div class="tags">
+              <span class="tag">محلي</span><span class="tag">FHD/4K</span>
+            </div>
+            <div class="act"><button class="btn" onclick="openRest()">فتح الاستراحة</button></div>
+          </div>
+
+          <div class="svc">
+            <h3>⚡ وضع الألعاب</h3>
+            <p>تقليل التأخير وحجز مسار أنسب لمرور الترافيك وقت اللعب.</p>
+            <div class="tags">
+              <span class="tag">Latency</span><span class="tag">QoS</span>
+            </div>
+            <div class="act"><button class="btn" onclick="go('pricing.html')">تفعيل مع باقة</button></div>
+          </div>
+
+          <div class="svc">
+            <h3>📱 تطبيق الشبكة</h3>
+            <p>إدارة رصيدك، السرعات، التنبيهات، وباقي الخدمات في مكان واحد.</p>
+            <div class="tags">
+              <span class="tag">Android</span><span class="tag">Notifications</span>
+            </div>
+            <div class="act"><a class="btn" href="./LaMaSaT.apk">تحميل الآن</a></div>
+          </div>
+        </div>
+      </div>
+
+     <div class="quick">
+  <a class="link" href="pricing.html">الأسعار</a>
+  <a class="link primary" href="pos.html">نقاط البيع</a>
+  <a class="link" href="tel:775350288">📞 اتصال بخدمة العملاء</a>
+  <a class="link" href="sms:775350288">✉️ رسالة نصية</a>
+</div>
+
+    </section>
+  </main>
+
+  <!-- مودال الاستراحة خفيف (اختياري: نفس ستايل الهوية) -->
+  <div id="restModal" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:20;">
+    <div style="width:min(820px,94vw);background:#062431;color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px;background:linear-gradient(135deg,#6a00ff 0%,#140024 70%);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;">
+        <span style="font-size:12px;font-weight:900;color:#1b0030;background:linear-gradient(135deg,#ffe56b,#ff9f3f);padding:6px 10px;border-radius:999px">جديد الشبكة</span>
+        <div>
+          <div style="font-weight:900">الاستراحة الإلكترونية — مكتبة محلية ضخمة</div>
+          <div style="color:#e8deff;font-size:13px">بعد <b>تسجيل الدخول</b>، افتح <b>10.10.10.10:8096</b> من المتصفح.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+        <button id="copyRestLink" style="border:0;padding:9px 13px;border-radius:12px;font-weight:900;cursor:pointer;color:#1b0030;background:linear-gradient(135deg,#ffe56b,#ff9f3f)">نسخ الرابط</button>
+        <button id="closeRest" style="border:0;padding:8px 12px;border-radius:10px;font-weight:800;cursor:pointer;color:#fff;background:#ef4444">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function go(href){ window.location.href = href }
+
+    // مودال الاستراحة
+    const REST_URL = 'http://10.10.10.10:8096';
+    const modal = document.getElementById('restModal');
+    function openRest(){ if(modal) modal.style.display='flex' }
+    function closeRest(){ if(modal) modal.style.display='none' }
+    document.getElementById('closeRest').addEventListener('click', closeRest);
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeRest() });
+    document.getElementById('copyRestLink').addEventListener('click', ()=>{
+      const btn = document.getElementById('copyRestLink');
+      const original = btn.textContent;
+      function feedback(ok){ btn.textContent = ok?'تم النسخ ✓':'تعذّر النسخ ✗'; setTimeout(()=>btn.textContent=original,1400) }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(REST_URL).then(()=>feedback(true)).catch(()=>feedback(false));
+      }else{
+        try{
+          const ta = document.createElement('textarea'); ta.value = REST_URL;
+          ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta);
+          ta.focus(); ta.select(); const ok = document.execCommand('copy'); document.body.removeChild(ta);
+          feedback(ok);
+        }catch(e){ feedback(false) }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>الأسعار - لمسات نت</title>
+  <link rel="stylesheet" href="ramadan.css">
+
+  <!-- ✅ تحميل بيانات الشبكة -->
+  <script src="lamasat.js"></script>
+</head>
+<body>
+  <div class="top">
+    <div class="row">
+      <div class="brand">
+        <span class="dot"></span>
+        <!-- ✅ اسم الشبكة ديناميكي -->
+        <span id="networkNameEl">شبكة لمسات نت اللاسلكية</span>
+      </div>
+      <a class="navbtn" href="login.html">الرئيسية</a>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="head">
+        <h1 class="title">الأسعار</h1>
+        <p class="sub">أسعار منافسة , استقرار عالي, سرعات تناسب الجميع</p>
+      </div>
+
+      <div class="body">
+        <div class="table-frame">
+          <table class="modern" aria-label="جدول الأسعار">
+            <colgroup><col><col><col><col></colgroup>
+            <thead>
+              <tr>
+                <th>الفئة</th>
+                <th>الرصيد (الحجم)</th>
+                <th>الوقت</th>
+                <th>الصلاحية</th>
+              </tr>
+            </thead>
+            <tbody id="price-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="quick">
+        <a class="link" href="pos.html">نقاط البيع</a>
+        <a class="link primary" href="services.html">الخدمات</a>
+
+        <!-- ✅ رقم خدمة العملاء ديناميكي -->
+        <a class="link" id="telLink" href="tel:">📞 اتصال بخدمة العملاء</a>
+        <a class="link" id="smsLink" href="sms:">✉️ رسالة نصية</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      var cfg = window.LAMASAT || {};
+
+      function normalizePhone(p){
+        if(!p) return '';
+        p = String(p).trim();
+        var hasPlus = p.startsWith('+');
+        p = p.replace(/[^\d]/g,'');
+        return hasPlus ? ('+'+p) : p;
+      }
+
+      function setNetworkName(){
+        var name = (cfg.networkName || 'لمسات نت').toString().trim();
+        var el = document.getElementById('networkNameEl');
+        if (el) el.textContent = 'شبكة ' + name + ' اللاسلكية';
+        try { document.title = 'الأسعار - ' + name; } catch(_){}
+      }
+
+      function setSupportLinks(){
+        var phone = normalizePhone(cfg.phone || '');
+        var tel = document.getElementById('telLink');
+        var sms = document.getElementById('smsLink');
+        if (phone){
+          if (tel) tel.href = 'tel:' + phone;
+          if (sms) sms.href = 'sms:' + phone;
+        }
+      }
+
+      // ✅ الأسعار من lamasat.js (LAMASAT.pricing)
+      // ملفك يعطي: { plan, hours, mb, validity }
+      var DATA = Array.isArray(cfg.pricing) ? cfg.pricing : [];
+      var tbody = document.getElementById('price-tbody');
+
+      function chipHTML(type, content, icon){
+        return `<span class="chip ${type}"><span class="ico">${icon}</span>${escapeHtml(content)}</span>`;
+      }
+
+      function escapeHtml(str){
+        return String(str).replace(/[&<>"']/g, function(m){
+          return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m];
+        });
+      }
+
+      function render(){
+        if(!tbody) return;
+        tbody.innerHTML = '';
+
+        if(!DATA.length){
+          var tr = document.createElement('tr');
+          tr.innerHTML = `<td class="p-name">لا توجد أسعار متاحة حالياً</td>
+                          <td>-</td><td>-</td><td>-</td>`;
+          tbody.appendChild(tr);
+          return;
+        }
+
+        DATA.forEach(function(p){
+          var plan = (p && p.plan != null) ? String(p.plan) : '-';
+          var mb   = (p && p.mb != null) ? String(p.mb) : '-';
+          var hrs  = (p && p.hours != null) ? String(p.hours) : '-';
+          var val  = (p && p.validity != null) ? String(p.validity) : '-';
+
+          var tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="p-name">${escapeHtml(plan)}</td>
+            <td>${chipHTML('size', mb, '🗂️')}</td>
+            <td>${chipHTML('time', hrs, '⏱️')}</td>
+            <td>${chipHTML('days', val, '📅')}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      setNetworkName();
+      setSupportLinks();
+      render();
+    })();
+  </script>
+</body>
+</html>
