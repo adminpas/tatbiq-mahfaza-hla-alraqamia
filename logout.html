@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>تم تسجيل الخروج | شبكة إيلان نت</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="expires" content="-1" />
+</head>
+<body>
+
+  <div class="container">
+ <div id="clock">Loading...</div>
+    <script type="text/javascript">
+      function refrClock1(){
+        var d=new Date();
+        var s=d.getSeconds(); var m=d.getMinutes(); var h=d.getHours();
+        var day=d.getDay(); var date=d.getDate(); var month=d.getMonth(); var year=d.getFullYear();
+        var days=["الاحد","الاثنين","الثلاثاء","الاربعاء","الخميس","الجمعة","السبت"];
+        var months=["يناير","فبراير","مارس","ابريل","ماي","يونيو","يوليو","اغسطس","سبتمبر","اكتوبر","نوفمبر","ديسمبر"];
+        var am_pm; if (s<10) s="0"+s; if (m<10) m="0"+m; if (h>12){h-=12;am_pm="مساءً."} else {am_pm="صباحاً."}
+        if (h<10) h="0"+h;
+        document.getElementById("clock").innerHTML=
+          days[day]+" "+date+" من "+months[month]+" "+year+"   |   الساعة الان "+h+":"+m+":"+s+" "+am_pm;
+        setTimeout("refrClock1()",1000);
+      }
+      refrClock1();
+    </script>
+    <div class="card">
+      <div class="card-header1">        <span class="network-label" id="netLabel">شبكة</span></div>
+      <div class="card-header">
+        <!-- الحلقة + سلايدر الصور -->
+        <div class="logo-ring">
+          <a id="logoLink" class="logo-link" href="img/1.jpeg" target="_blank" rel="noopener">
+            <img id="logoSlide" src="img/1.jpeg" alt="Elan Net Logo" class="logo">
+          </a>
+        </div>
+
+        <svg class="wave-svg" viewBox="0 0 500 150" preserveAspectRatio="none">
+          <path d="M0,30 C150,150 350,0 500,30 L500,150 L0,150 Z" fill="#2f004f"></path>
+        </svg>
+      </div>
+
+      <div class="tagline">
+        <div class="marquee" id="marq">
+          <div class="marquee-track" id="marqueeTrack">
+            <span id="marqueeText">عدم استخدام الإنترنت في ما لا يرضي الله تعالى وللتذكير إن الله عليك رقيب</span>
+            <span aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="login-box center">
+          <h3 class="mb-8">تم إنهاء الجلسة</h3>
+
+          <div class="table-wrap" style="max-width:420px;margin-inline:auto;">
+            <table class="table">
+              <tbody>
+                <tr><td>اسم المستخدم</td><td>$(username)</td></tr>
+                <tr><td>الآي بي</td><td>$(ip)</td></tr>
+                <tr><td>زمن الجلسة</td><td>$(uptime)</td></tr>
+                <tr><td>المحمل (داخل/خارج)</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mt-8">
+            <a class="btn btn-primary" href="$(link-login)">تسجيل الدخول من جديد</a>
+            <a class="btn btn-light" href="$(link-orig)">العودة للموقع السابق</a>
+            <button class="btn btn-light" id="clearBtn">مسح الكرت المحفوظ</button>
+          </div>
+
+          <div class="mt-8" style="opacity:.85;font-size:12px;">
+            سيتم تحويلك تلقائيًا إلى صفحة الدخول بعد 3 ثوانٍ…
+          </div>
+        </div>
+
+        <div class="links-curved">
+          <a href="instructions.html" class="bubble">التعليمات</a>
+          <a href="services.html" class="bubble">جديد<br>الخدمات</a>
+          <a href="pricing.html" class="bubble">الاسعار</a>
+          <a href="pos.html" class="bubble">نقاط<br>البيع</a>
+          <a href="login.html" class="bubble">الرئيسية</a>
+          <a href="https://www.tvquran.com/" target="_blank" class="bubble">القرآن<br>الكريم</a>
+        </div>
+
+      <div class="footer" id="footerBox">
+          <div id="supportLine">رقم خدمة العملاء: <b id="clientPhoneText">000000000</b></div>
+          <div class="social">
+            <a id="telLink" href="#" title="اتصال">📞</a>
+            <a id="waLink"  href="#" title="واتساب">💬</a>
+          </div>
+          <div style="margin-top:8px">جميع الحقوق محفوظة لمكتب لمسات سوفت © 2025</div>
+        </div>
+    </div>
+  </div>
+
+<script>
+function setCookie(name,v,days){var e="";if(days){var d=new Date();d.setTime(d.getTime()+days*24*60*60*1000);e="; expires="+d.toUTCString();}document.cookie=name+"="+(v||"")+e+"; path=/";}
+document.addEventListener('DOMContentLoaded', function(){
+  // إعادة توجيه تلقائي لصفحة الدخول
+  <!-- var to = setTimeout(function(){ location.href = '$(link-login)'; }, 3000); -->
+
+  // مسح الكوكيز عند الطلب
+  var clearBtn = document.getElementById('clearBtn');
+  if (clearBtn){
+    clearBtn.addEventListener('click', function(){
+      setCookie('username','',-1);
+      setCookie('speed','',-1);
+      setCookie('update','',-1);
+      alert('تم مسح الكرت المحفوظ.');
+      clearTimeout(to);
+    });
+  }
+});
+
+ var images=['img/1.jpeg','img/2.jpeg','img/3.jpeg'];
+      var logoImg=document.getElementById('logoSlide');
+      var logoLink=document.getElementById('logoLink');
+      if(logoImg && logoLink){
+        images.forEach(function(src){ var im=new Image(); im.src=src; });
+        var si=0;
+        setInterval(function(){
+          logoImg.classList.add('fade-out');
+          setTimeout(function(){
+            si=(si+1)%images.length;
+            logoImg.src=images[si];
+            logoLink.href=images[si];
+            logoImg.classList.remove('fade-out');
+          }, 500);
+        }, 3000);
+      }
+</script>
+
+<script src="lamasat.js" defer></script>
+
+</body>
+</html>

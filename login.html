@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>شبكة</title>
+
+  <!-- ✅ تحميل بيانات الشبكة -->
+  <script src="lamasat.js"></script>
+
+  <link rel="stylesheet" href="ramadan.css">
+     <script src="lamasat_wallet_pop.js"></script>
+
+</head>
+
+<body>
+  <!-- خلفية النجوم -->
+  <div class="particles" id="particles"></div>
+  <div class="ramadan-orn" aria-hidden="true"></div>
+
+  <!-- نافذة الخطأ -->
+  <div class="error-popup" id="errorPopup" role="alertdialog" aria-modal="true" aria-labelledby="errTitle">
+    <div class="error-popup-content" id="errorPopupContent" tabindex="-1">
+      <button class="error-close-button" id="errorCloseBtn" type="button" onclick="closeErrorPopup()" aria-label="إغلاق">إغلاق</button>
+      <h1 id="errTitle">تنبيه</h1>
+      <p id="errorPopupMessage"></p>
+    </div>
+  </div>
+  
+  
+    <!-- نافذة جمعة مباركة -->
+  <div class="friday-popup" id="fridayPopup" role="dialog" aria-modal="true" aria-labelledby="fridayTitle">
+    <div class="friday-popup-content" tabindex="-1">
+      <button class="friday-close-button" type="button" id="fridayCloseBtn" aria-label="إغلاق">إغلاق</button>
+      <h2 id="fridayTitle">جمعة مباركة ✨</h2>
+      <p>تقبّل الله طاعتكم، وجعل هذا اليوم المبارك خيرًا وبركةً عليكم.</p>
+    </div>
+  </div>
+
+  
+
+  <div class="top">
+    <div class="row">
+      <!-- ✅ اسم الشبكة ديناميكي -->
+      <div class="brand">
+        <span class="dot"></span>
+        <span id="networkNameEl">شبكة</span>
+      </div>
+      <div>
+        <!-- <button id="openFeatures" class="cta features-btn" type="button">مميزاتنا</button> -->
+        <button id="openRest" class="cta" type="button">الاستراحة</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="card" aria-label="واجهة الدخول">
+      <div class="hero">
+        <!-- فانوس (SVG) -->
+        <svg class="lantern" viewBox="0 0 64 80" aria-hidden="true">
+          <defs>
+            <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#f7d36a"/>
+              <stop offset="1" stop-color="#20e3b2"/>
+            </linearGradient>
+            <radialGradient id="rg1" cx="50%" cy="40%" r="70%">
+              <stop offset="0" stop-color="rgba(247,211,106,.85)"/>
+              <stop offset="1" stop-color="rgba(247,211,106,0)"/>
+            </radialGradient>
+          </defs>
+          <path d="M32 2c6 0 10 4 10 10v4H22v-4C22 6 26 2 32 2Z" fill="rgba(255,255,255,.18)"/>
+          <path d="M18 16h28l-4 10H22l-4-10Z" fill="rgba(255,255,255,.12)"/>
+          <path d="M20 26h24l4 10H16l4-10Z" fill="rgba(255,255,255,.10)"/>
+          <path d="M14 36h36l-6 32H20l-6-32Z" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)"/>
+          <path d="M22 40h20v24H22z" fill="url(#lg1)" opacity=".85"/>
+          <circle cx="32" cy="52" r="18" fill="url(#rg1)" opacity=".75"/>
+          <path d="M28 70h8v6c0 2-2 2-4 2s-4 0-4-2v-6Z" fill="rgba(255,255,255,.14)"/>
+        </svg>
+
+        <div class="viewer" aria-hidden="true">
+          <div class="cube" id="cube">
+            <a class="face f1" href="img/1.jpeg" target="_blank" rel="noopener"><img src="img/1.jpeg" alt=""></a>
+            <a class="face f2" href="img/2.jpeg" target="_blank" rel="noopener"><img src="img/2.jpeg" alt=""></a>
+            <a class="face f3" href="img/3.jpeg" target="_blank" rel="noopener"><img src="img/3.jpeg" alt=""></a>
+            <a class="face f4" href="img/4.jpeg" target="_blank" rel="noopener"><img src="img/4.jpeg" alt=""></a>
+          </div>
+        </div>
+
+        <h1 class="title">الهاشم نت 💜🎉</h1>
+
+        <!-- ✅ نص الشريط ديناميكي من LAMASAT.marquee.text -->
+        <div class="promo" role="note" aria-label="تنبيه رمضاني">
+          <strong>📢 تنبيه:</strong>
+          <span id="tickerTextEl">...</span>
+          —
+          <a href="pricing.html">شاهد الأسعار</a>
+        </div>
+
+        <p class="sub">اختر سرعة الإنترنت التي تناسبك</p>
+      </div>
+
+      <div class="body">
+        <div id="speedGrid" class="grid" role="radiogroup" aria-label="اختيار السرعة">
+          <button type="button" class="speed" data-value="speed_economic" role="radio" aria-checked="false">اقتصادية</button>
+          <button type="button" class="speed" data-value="speed_normal"   role="radio" aria-checked="false">متوسطة</button>
+          <button type="button" class="speed" data-value="speed_high"     role="radio" aria-checked="false">عالية</button>
+          <button type="button" class="speed" data-value="speed_very"     role="radio" aria-checked="false">فائقة</button>
+          <button type="button" class="speed wide" data-value="speed_gaming" role="radio" aria-checked="false">🎮 ألعاب أونلاين</button>
+        </div>
+
+        <form id="login-form" method="post" action="$(link-login-only)">
+          <div class="field">
+            <span aria-hidden="true">🔐</span>
+            <input id="username" name="username" inputmode="text" placeholder="أدخل رقم الكرت هنا" required>
+          </div>
+
+          <input type="hidden" id="speed" name="speed" value="">
+          <input type="hidden" id="domain" name="domain" value="">
+          <input type="hidden" name="password" value="">
+          <input type="hidden" id="update" name="update" value="">
+
+          <!-- خيار إيقاف التحديثات -->
+          <div class="update-inline off" id="updateCard" role="group" aria-label="إيقاف تحديثات جوجل">
+            <label class="switch" aria-label="مفتاح إيقاف التحديثات">
+              <input type="checkbox" id="updateToggle" aria-checked="false" role="switch">
+              <span class="track"></span>
+            </label>
+            <div class="txt">
+              <div class="title" id="updateStateTitle">ملغي</div>
+              <div class="sub">ايقاف متجر بلاي والتحديثات التلقائية</div>
+            </div>
+          </div>
+
+          <label class="save"><input type="checkbox" id="save-card" checked> حفظ الكرت والسرعة</label>
+          <button class="btn btn-login" type="submit">تسجيل الدخول</button>
+
+          <div class="quick-links" aria-label="روابط سريعة">
+            <a href="pricing.html"  class="quick-link">الأسعار</a>
+            <a href="pos.html"      class="quick-link">نقاط البيع</a>
+            <a href="services.html" class="quick-link primary">الخدمات</a>
+            <a href="login.html"    class="quick-link">الرئيسية</a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="contact" aria-label="التواصل مع خدمة العملاء">
+      <!-- ✅ الرقم ديناميكي من LAMASAT.phone -->
+      <a id="callLink" class="call" href="tel:">📞 اتصال بخدمة العملاء</a>
+      <a id="smsLink"  class="sms"  href="sms:">✉️ رسالة نصية</a>
+    </section>
+  </main>
+
+  <!-- مودال الاستراحة -->
+  <div id="restModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="restTitle">
+    <div class="rest-card">
+      <div class="rest-head">
+        <span class="burst">جديد الشبكة</span>
+        <div>
+          <div id="restTitle" class="rest-title">الاستراحة الإلكترونية — مكتبة محلية ضخمة</div>
+          <div class="rest-sub">بعد <b>تسجيل الدخول</b>، افتح <b id="restUrlText">30.10.10.10</b> من المتصفح للدخول مباشرة.</div>
+        </div>
+      </div>
+
+      <div class="rest-body">
+        <div class="kpi">
+          <div class="kpi-num"><span id="tbCounter">0</span> الف جيجا بايت</div>
+          <div class="kpi-sub">أفلام، مسلسلات، وثائقي، أنمي وأكثر</div>
+        </div>
+        <div class="chips">
+          <div class="chip">🎞️ أفلام</div>
+          <div class="chip">📺 مسلسلات</div>
+          <div class="chip">🎓 وثائقي</div>
+          <div class="chip">🧒 أنمي وأطفال</div>
+          <div class="chip">💥 4K و FHD</div>
+          <div class="chip">⚡ تشغيل سريع داخل الشبكة</div>
+        </div>
+      </div>
+
+      <div class="rest-foot">بدون استهلاك من الكرت — استمتع بمحتوى ضخم داخل الشبكة.</div>
+
+      <div class="rest-actions">
+        <button id="copyRestLink" class="btn-copy" type="button">نسخ رابط الاستراحة</button>
+        <button id="closeRest" class="btn-close" type="button">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================== 📿 مسبحة إلكترونية ================== -->
+ 
+
+  <script>
+    /* ==========================================================
+       ✅ هذه الصفحة تقرأ من: window.LAMASAT (lamasat.js)
+       المفاتيح المعتمدة حسب ملفك:
+       - LAMASAT.networkName
+       - LAMASAT.phone
+       - LAMASAT.marquee.text
+       - (اختياري) LAMASAT.restUrl  ← إذا حبيت تضيفه لاحقًا
+    ========================================================== */
+    (function(){
+      function normalizePhone(p){
+        if(!p) return '';
+        p = String(p).trim();
+        var hasPlus = p.startsWith('+');
+        p = p.replace(/[^\d]/g,'');
+        return hasPlus ? ('+'+p) : p;
+      }
+      function stripProto(u){
+        return (u||'').toString().replace(/^https?:\/\//,'');
+      }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        var cfg = window.LAMASAT || {};
+
+        var name   = (cfg.networkName || 'لمسات نت').toString().trim();
+        var phone  = normalizePhone(cfg.phone || '');
+        var text   = (cfg.marquee && typeof cfg.marquee.text === 'string') ? cfg.marquee.text.trim() : '';
+        var restUrl = (cfg.restUrl || cfg.estrahaUrl || '').toString().trim();
+
+        /* 1) اسم الشبكة */
+        var nameEl = document.getElementById('networkNameEl');
+        if (nameEl) nameEl.textContent = 'شبكة ' + name + ' اللاسلكية';
+        try { document.title = 'شبكة ' + name + ' اللاسلكية'; } catch(_){}
+
+        /* 2) رقم خدمة العملاء */
+        var call = document.getElementById('callLink');
+        var sms  = document.getElementById('smsLink');
+        if (phone){
+          if (call) call.href = 'tel:' + phone;
+          if (sms)  sms.href  = 'sms:' + phone;
+        } else {
+          // لو ما في رقم، اخفِ القسم (اختياري)
+          // var contact = document.querySelector('.contact');
+          // if(contact) contact.style.display='none';
+        }
+
+        /* 3) نص الشريط */
+        var tickerEl = document.getElementById('tickerTextEl');
+        if (tickerEl){
+          tickerEl.textContent = text || '';
+        }
+
+        /* 4) رابط الاستراحة (زر + مودال + نسخ) */
+        /* 4) رابط الاستراحة (زر + مودال + نسخ) */
+var openRestBtn = document.getElementById('openRest');
+var restBtn = document.getElementById('restLinkBtn');
+
+if (!restUrl) {
+  if (openRestBtn) openRestBtn.style.display = 'none';
+  if (restBtn) restBtn.style.display = 'none';
+  window.REST_URL_DYNAMIC = '';
+} else {
+  if (openRestBtn) openRestBtn.style.display = '';
+  if (restBtn) {
+    restBtn.style.display = '';
+    restBtn.href = restUrl;
+  }
+
+  var restUrlText = document.getElementById('restUrlText');
+  if (restUrlText) restUrlText.textContent = stripProto(restUrl);
+
+  var copyBtn = document.getElementById('copyRestLink');
+  if (copyBtn) copyBtn.textContent = 'نسخ رابط الاستراحة ' + stripProto(restUrl);
+
+  window.REST_URL_DYNAMIC = restUrl;
+}
+
+      });
+    })();
+
+    /* إنشاء نجوم متحركة */
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      if (!particlesContainer) return;
+
+      const particleCount = 36;
+      for (let i = 0; i < particleCount; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+
+        // تنويع الشكل
+        if (Math.random() > 0.75) p.classList.add('big');
+        if (Math.random() > 0.70) p.classList.add('soft');
+
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const dur = Math.random() * 10 + 8;
+        const delay = Math.random() * 4;
+
+        p.style.left = x + '%';
+        p.style.top  = y + '%';
+        p.style.animationDuration = dur + 's';
+        p.style.animationDelay = delay + 's';
+
+        particlesContainer.appendChild(p);
+      }
+    }
+
+    /* أدوات مبسطة */
+    function setCookie(n,v,d){var e="";if(d){var t=new Date;t.setTime(t.getTime()+24*60*60*1000*d);e="; expires="+t.toUTCString()}document.cookie=n+"="+(v||"")+e+"; path=/";}
+    function getCookie(n){var a=n+"=",ca=document.cookie.split(";");for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(a)===0)return c.substring(a.length);}return null;}
+    function toEnglishDigits(s){var m={'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9','۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};return (s||'').replace(/[٠-٩۰-۹]/g,ch=>m[ch]||ch)}
+    function normalizeCard(s){s=toEnglishDigits(s||'');return s.replace(/\s+/g,'')}
+
+    /* ===== نافذة الأخطاء ===== */
+    (function(){
+      var popup   = document.getElementById('errorPopup');
+      var content = document.getElementById('errorPopupContent');
+      var msgEl   = document.getElementById('errorPopupMessage');
+      var closeBtn= document.getElementById('errorCloseBtn');
+      var lastFocus = null;
+
+      function openErrorPopup(message){
+        if(!popup || !content || !msgEl) return;
+        msgEl.textContent = (message || '').toString();
+        if(!msgEl.textContent.trim()) return;
+        lastFocus = document.activeElement;
+        popup.classList.add('on');
+        content.focus();
+        setTimeout(function(){ closeBtn && closeBtn.focus(); }, 30);
+      }
+
+      function closeErrorPopup(){
+        if(!popup) return;
+        popup.classList.remove('on');
+        if(lastFocus && typeof lastFocus.focus === 'function'){ try{ lastFocus.focus(); }catch(e){} }
+      }
+
+      window.openErrorPopup  = openErrorPopup;
+      window.closeErrorPopup = closeErrorPopup;
+
+      if(content){ content.addEventListener('click', function(e){ e.stopPropagation(); }, {passive:true}); }
+      if(popup){ popup.addEventListener('click', function(e){ if(e.target===popup) closeErrorPopup(); }); }
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && popup && popup.classList.contains('on')) closeErrorPopup();
+      });
+      if(closeBtn){ closeBtn.addEventListener('click', closeErrorPopup); }
+
+      function displayError(){
+        var error = "$(error)";
+        var username = "$(username)" || "";
+        var msg = "";
+
+        if (error === "simultaneous session limit reached") msg = "لا يمكن تسجيل الدخول أكثر من مرة";
+        else if (error === "invalid username or password") msg = "خطأ في اسم المستخدم أو كلمة المرور، حاول مرة أخرى";
+        else if (error === "access denied at this time") msg = "بطاقة ماكس لا يمكن استخدامها في هذا الوقت";
+        else if (error === "uptime limit reached") msg = "عذرًا، انتهى الوقت المتاح لهذه البطاقة";
+        else if (error === "invalid password") msg = "تأكد من كتابة كلمة المرور بشكل صحيح";
+        else if (error === "no more sessions are allowed for user $(username)") msg = "لا يمكن تسجيل الدخول أكثر من مرة";
+        else if (error === "no valid profile found") msg = "انتهت صلاحية هذه البطاقة";
+        else if (error === "transfer limit reached") msg = "انتهى رصيد هذه البطاقة";
+        else if (error === "user $(username) has reached traffic limit") msg = "انتهى رصيد هذه البطاقة";
+        else if (error === "invalid Calling-Station-Id") msg = "هذا الحساب مقترن بجهاز آخر";
+        else if (error === "user $(username) has reached uptime limit") msg = "الحساب $(username) قد انتهى الوقت المتاح له";
+        else if (error === "user $(username) is not allowed to log in from this MAC address") msg = "هذا الحساب مقترن بجهاز آخر";
+        else if (error && error.indexOf("not found") !== -1) msg = "اسم المستخدم غير موجود، تأكد من كتابته بشكل صحيح";
+        else if (error === "radius timeout") msg = "نعتذر عن انقطاع الخدمة مؤقتًا بسبب الصيانة";
+        else if (error === "$(error)" || !error || !String(error).trim()) msg = "";
+        else msg = error;
+
+        if (msg && msg.trim() !== ""){
+          msg = msg.replace(/\$\((username)\)/g, username);
+          openErrorPopup(msg);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        createParticles();
+        displayError();
+      });
+      window.displayError = displayError;
+    })();
+
+    /* ===== نافذة المميزات ===== */
+    (function(){
+      var wrap = document.getElementById('welcomePopup');
+      var btnClose = document.getElementById('welcomeClose');
+      var btnStart = document.getElementById('welcomeStart');
+      var btnOpenFeatures = document.getElementById('openFeatures');
+
+      if(!wrap) return;
+
+      function openWelcome(){ wrap.classList.add('on'); }
+      function closeWelcome(){ wrap.classList.remove('on'); }
+
+      if(btnOpenFeatures) btnOpenFeatures.addEventListener('click', openWelcome);
+      wrap.addEventListener('click', function(e){ if(e.target===wrap) closeWelcome(); });
+      if(btnClose) btnClose.addEventListener('click', closeWelcome);
+      if(btnStart) btnStart.addEventListener('click', closeWelcome);
+    })();
+
+    /* اختيار السرعة */
+    (function(){
+      var grid=document.getElementById('speedGrid');
+      var btns=[].slice.call(grid.querySelectorAll('.speed'));
+      var input=document.getElementById('speed');
+      function select(v){
+        btns.forEach(b=>{
+          var on=b.dataset.value===v;
+          b.classList.toggle('sel',on);
+          b.setAttribute('aria-checked',on?'true':'false');
+        });
+        if(input) input.value=v||"";
+      }
+      btns.forEach(b=>b.addEventListener('click',()=>select(b.dataset.value)));
+      var saved=getCookie('speed'); if(saved) select(saved);
+    })();
+
+    /* بطاقة إيقاف التحديثات */
+    (function(){
+      var updateInput   = document.getElementById('update');
+      var updateCard    = document.getElementById('updateCard');
+      var updateToggle  = document.getElementById('updateToggle');
+      var updateTitle   = document.getElementById('updateStateTitle');
+
+      if(!updateInput || !updateCard || !updateToggle || !updateTitle) return;
+
+      function applyUpdateUI(isOn){
+        if(isOn){
+          updateCard.classList.add('on'); updateCard.classList.remove('off');
+          updateTitle.textContent='مُفعّل';
+          updateInput.value='choose-auto-update-off';
+          updateToggle.checked=true; updateToggle.setAttribute('aria-checked','true');
+        }else{
+          updateCard.classList.add('off'); updateCard.classList.remove('on');
+          updateTitle.textContent='ملغي';
+          updateInput.value='';
+          updateToggle.checked=false; updateToggle.setAttribute('aria-checked','false');
+        }
+      }
+
+      var savedUpdate = getCookie('update');
+      if (!savedUpdate || savedUpdate==='null' || savedUpdate==='undefined') {
+        savedUpdate = '';
+        setCookie('update','',30);
+      }
+      applyUpdateUI(savedUpdate === 'choose-auto-update-off');
+
+      updateToggle.addEventListener('change', function(e){
+        var on = !!this.checked;
+        applyUpdateUI(on);
+        setCookie('update', on ? 'choose-auto-update-off' : '', 30);
+        e.stopPropagation();
+      });
+
+      updateCard.addEventListener('click', function(e){
+        if(e.target.closest('input, label')) return;
+        var next = !updateToggle.checked;
+        applyUpdateUI(next);
+        setCookie('update', next ? 'choose-auto-update-off' : '', 30);
+      });
+    })();
+
+    /* نموذج الدخول */
+    (function(){
+      var form=document.getElementById('login-form');
+      var user=document.getElementById('username');
+      var speed=document.getElementById('speed');
+      var dom=document.getElementById('domain');
+      var save=document.getElementById('save-card');
+      var updateField=document.getElementById('update');
+
+      var last=getCookie('lastEnteredUsername')||getCookie('username')||'';
+      if(last && user) user.value=normalizeCard(last);
+
+      if(form){
+        form.addEventListener('submit',function(){
+          if(user){ user.value=normalizeCard(user.value) }
+          var u=(user&&user.value)||'';
+          var s=(speed&&speed.value)||'';
+          var upd=(updateField&&updateField.value)||'';
+
+          if(dom){
+            dom.value=s||"";
+            if(u.startsWith('777')) dom.removeAttribute('name'); else dom.setAttribute('name','domain');
+          }
+
+          if(save && save.checked){
+            setCookie('username',u,30);
+            setCookie('speed',s,30);
+            setCookie('update',upd,30);
+            setCookie('lastEnteredUsername',u,30);
+          }else{
+            setCookie('username','',-1);
+            setCookie('speed','',-1);
+            setCookie('update','',-1);
+          }
+        });
+      }
+    })();
+
+    /* تفاعل خفيف للـ 3D */
+    (function(){
+      var cube=document.getElementById('cube');
+      if(!cube) return;
+      var supportsPointer = matchMedia('(pointer:fine)').matches;
+      if(supportsPointer){
+        var timer=null, baseRot=0;
+        cube.addEventListener('mousemove', function(e){
+          var r=cube.getBoundingClientRect();
+          var cx=r.left + r.width/2, cy=r.top + r.height/2;
+          var dx=(e.clientX - cx)/r.width, dy=(e.clientY - cy)/r.height;
+          cube.style.animationPlayState='paused';
+          cube.style.transform=`rotateY(${baseRot}deg) rotateX(${dy*-10}deg) rotateZ(${dx*6}deg)`;
+          clearTimeout(timer);
+          timer=setTimeout(function(){ cube.style.animationPlayState='running'; }, 300);
+        });
+      }
+    })();
+
+    /* مودال الاستراحة */
+    (function(){
+      // ✅ يأخذ رابط الاستراحة من LAMASAT (إن وُجد) وإلا من الافتراضي
+      var REST_URL = (window.REST_URL_DYNAMIC || 'http://10.10.10.10:8096');
+
+      var openBtn=document.getElementById('openRest');
+      var modal=document.getElementById('restModal');
+      var closeBtn=document.getElementById('closeRest');
+      var copyBtn=document.getElementById('copyRestLink');
+      var tb=document.getElementById('tbCounter');
+
+      function open(){ if(modal) modal.classList.add('on'); startTb(); }
+      function close(){ if(modal) modal.classList.remove('on'); }
+
+      function startTb(){
+        if(!tb || startTb._done) return;
+        startTb._done=true;
+        var start=0, end=150, ms=2500, t0=null;
+        function step(ts){
+          if(!t0) t0=ts;
+          var p=Math.min((ts-t0)/ms,1);
+          var eased=1-Math.pow(1-p,3);
+          tb.textContent = Math.floor(start + (end-start)*eased).toLocaleString('ar-EG');
+          if(p<1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      function copyUrl(){
+        var original=copyBtn.textContent;
+        function feedback(ok){
+          copyBtn.textContent = ok ? 'تم النسخ ✓' : 'تعذّر النسخ ✗';
+          setTimeout(()=>copyBtn.textContent=original,1400);
+        }
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(REST_URL).then(()=>feedback(true)).catch(()=>feedback(false));
+        }else{
+          try{
+            var ta=document.createElement('textarea');
+            ta.value=REST_URL; ta.style.position='fixed'; ta.style.opacity='0';
+            document.body.appendChild(ta); ta.select();
+            var ok=document.execCommand('copy'); document.body.removeChild(ta);
+            feedback(ok);
+          }catch(e){ feedback(false); }
+        }
+      }
+
+      if(openBtn) openBtn.addEventListener('click', open);
+      if(closeBtn) closeBtn.addEventListener('click', close);
+      if(modal) modal.addEventListener('click', function(e){ if(e.target===modal) close(); });
+      if(copyBtn) copyBtn.addEventListener('click', copyUrl);
+    })();
+
+    /* ================== 📿 منطق المسبحة (محلي) ================== */
+    (function(){
+      var openBtn  = document.getElementById('tasbeehOpen');
+      var panel    = document.getElementById('tasbeehPanel');
+      var closeBtn = document.getElementById('tasbeehClose');
+
+      var countEl  = document.getElementById('tasbeehCount');
+      var dhikrSel = document.getElementById('tasbeehDhikr');
+      var dhikrTxt = document.getElementById('tasbeehDhikrText');
+
+      var addBtn   = document.getElementById('tasbeehAdd');
+      var resetBtn = document.getElementById('tasbeehReset');
+      var minusBtn = document.getElementById('tasbeehMinus');
+
+      if(!openBtn || !panel || !closeBtn || !countEl || !dhikrSel || !dhikrTxt || !addBtn || !resetBtn || !minusBtn) return;
+
+      var LS_KEY = 'LS_TASBEEH_V1';
+
+      function load(){
+        try{
+          var raw = localStorage.getItem(LS_KEY);
+          if(!raw) return {count:0, dhikr:'سبحان الله'};
+          var o = JSON.parse(raw);
+          return {
+            count: (typeof o.count === 'number' && isFinite(o.count)) ? Math.max(0, Math.floor(o.count)) : 0,
+            dhikr: (o.dhikr && typeof o.dhikr === 'string') ? o.dhikr : 'سبحان الله'
+          };
+        }catch(e){
+          return {count:0, dhikr:'سبحان الله'};
+        }
+      }
+
+      function save(state){
+        try{
+          localStorage.setItem(LS_KEY, JSON.stringify({count:state.count, dhikr:state.dhikr}));
+        }catch(e){}
+      }
+
+      var state = load();
+
+      function apply(){
+        countEl.textContent = String(state.count);
+        dhikrTxt.textContent = state.dhikr;
+        if(dhikrSel.value !== state.dhikr) dhikrSel.value = state.dhikr;
+      }
+
+      function vibrateTiny(){
+        try{ if(navigator.vibrate) navigator.vibrate(12); }catch(e){}
+      }
+
+      function openPanel(){ panel.classList.add('on'); }
+      function closePanel(){ panel.classList.remove('on'); }
+
+      openBtn.addEventListener('click', function(){
+        if(panel.classList.contains('on')) closePanel(); else openPanel();
+      });
+      closeBtn.addEventListener('click', closePanel);
+
+      dhikrSel.addEventListener('change', function(){
+        state.dhikr = this.value || 'سبحان الله';
+        save(state);
+        apply();
+      });
+
+      addBtn.addEventListener('click', function(){
+        state.count = (state.count || 0) + 1;
+        save(state);
+        apply();
+        vibrateTiny();
+      });
+
+      minusBtn.addEventListener('click', function(){
+        state.count = Math.max(0, (state.count || 0) - 1);
+        save(state);
+        apply();
+        vibrateTiny();
+      });
+
+      resetBtn.addEventListener('click', function(){
+        state.count = 0;
+        save(state);
+        apply();
+        vibrateTiny();
+      });
+
+      try{
+        var hintKey = 'LS_TASBEEH_HINT_V1';
+        if(!localStorage.getItem(hintKey)){
+          localStorage.setItem(hintKey, '1');
+          openBtn.animate(
+            [
+              { transform:'translateY(0) scale(1)' },
+              { transform:'translateY(-10px) scale(1.06)' },
+              { transform:'translateY(0) scale(1)' },
+              { transform:'translateY(-7px) scale(1.04)' },
+              { transform:'translateY(0) scale(1)' }
+            ],
+            { duration: 1200, easing:'cubic-bezier(.2,.9,.2,1)' }
+          );
+          try{ if(navigator.vibrate) navigator.vibrate([18, 50, 18]); }catch(e){}
+        }
+      }catch(e){}
+
+      apply();
+    })();
+	
+	    /* ===== نافذة جمعة مباركة ===== */
+    (function(){
+      function isFridayToday(){
+        return new Date().getDay() === 5; // الجمعة
+      }
+
+      function todayKey(){
+        var d = new Date();
+        var y = d.getFullYear();
+        var m = String(d.getMonth() + 1).padStart(2, '0');
+        var day = String(d.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + day;
+      }
+
+      function openFridayPopup(){
+        var popup = document.getElementById('fridayPopup');
+        if(!popup) return;
+        popup.classList.add('on');
+      }
+
+      function closeFridayPopup(){
+        var popup = document.getElementById('fridayPopup');
+        if(!popup) return;
+        popup.classList.remove('on');
+      }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        var popup = document.getElementById('fridayPopup');
+        var closeBtn = document.getElementById('fridayCloseBtn');
+        if(!popup || !closeBtn) return;
+
+        closeBtn.addEventListener('click', closeFridayPopup);
+        popup.addEventListener('click', function(e){
+          if(e.target === popup) closeFridayPopup();
+        });
+
+        document.addEventListener('keydown', function(e){
+          if(e.key === 'Escape' && popup.classList.contains('on')){
+            closeFridayPopup();
+          }
+        });
+
+        if(!isFridayToday()) return;
+
+        var key = 'friday-popup-shown-' + todayKey();
+        try{
+          if(localStorage.getItem(key) === '1') return;
+          localStorage.setItem(key, '1');
+        }catch(e){}
+
+        setTimeout(function(){
+          openFridayPopup();
+        }, 700);
+      });
+    })();
+  </script>
+</body>
+</html>
